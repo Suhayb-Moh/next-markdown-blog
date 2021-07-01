@@ -2,18 +2,22 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import Head from 'next/head'
+import Post from '../components/Post'
+import {sortByDate} from '../utils'
 
 
-export default function Home() {
+export default function Home({posts}) {
   return (
     <div>
       <Head>
         <title>Create Next App</title>
       </Head>
 
-      <h2>
-        Hello World
-      </h2>
+      <div className="posts">
+        {posts.map((post, index) =>(
+          <Post post={post} />
+        ))}
+      </div>
     </div>
   )
 }
@@ -38,10 +42,10 @@ export async function getStaticProps(){
     }
   })
 
-  console.log(posts)
+
   return {
     props: {
-      posts: 'The Posts',
+      posts: posts.sort(sortByDate),
     },
   }
 }
